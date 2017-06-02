@@ -1,8 +1,16 @@
 import argparse
 import pycurl
 import socket
+import site_result_time
 from io import BytesIO
 
+global site
+global ip
+global dns_lookup
+global tcp_connection_time
+global http_response_code
+global redirect_count
+global load_content_time
 site_list = ['google.com', 'yahoo.com', 'amazon.com', 'cnn.com', 'msn.com', 'ebay.com']
 buffer = BytesIO()
 curl = pycurl.Curl()
@@ -42,11 +50,20 @@ def get_all_information(timeout, is_json_output, user_agent, parallel):
         else:
             print("HTTP response Code isn't 200! Content didn't load.")
         print('*** END ***')
-        # body = buffer.getvalue()
-        # print(body)
-    #     it print body of HTML page
+
+        if is_json_output:
+            site_result_time.SiteResult.__init__(site, ip, dns_lookup, tcp_connection_time, http_response_code, redirect_count, load_content_time)
 
     pass
+
+
+def write2file():
+    site_result_time.SiteResult.__init__(site, ip, dns_lookup, tcp_connection_time, http_response_code, redirect_count, load_content_time)
+
+
+def write2TestFile():
+    site_result_time.SiteResult.__init__(site_result_time, "google.com", "192.168.0.1", 0.0008, 0.005, 200, 2, 5.35)
+    site_result_time.SiteResult.write_json_file(site_result_time)
 
 
 def str2bool(v):
@@ -89,7 +106,8 @@ def create_parser():
 def main():
     parser = create_parser()
     args = parser.parse_args()
-    get_all_information(args.timeout, args.wright, args.agent, args.parallel)
+    #get_all_information(args.timeout, args.wright, args.agent, args.parallel)
+    write2TestFile()
 
 
 if __name__ == '__main__':
