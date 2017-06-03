@@ -1,69 +1,67 @@
 import argparse
 import pycurl
 import socket
+import yaml
 import site_result_time
 from io import BytesIO
 
-global site
-global ip
-global dns_lookup
-global tcp_connection_time
-global http_response_code
-global redirect_count
-global load_content_time
-site_list = ['google.com', 'yahoo.com', 'amazon.com', 'cnn.com', 'msn.com', 'ebay.com']
 buffer = BytesIO()
 curl = pycurl.Curl()
-multi_curl = pycurl.CurlMulti()
 
 
 def get_all_information(timeout, is_json_output, user_agent, parallel):
-    print("Test information about sites")
+    site_list = get_site_list()
+
+    curl.setopt(curl.WRITEDATA, buffer)
+    curl.setopt(curl.FOLLOWLOCATION, True)
 
     if user_agent:
         curl.setopt(curl.USERAGENT, user_agent)
-        print(user_agent + " - user agent")
+    if timeout:
+        curl.setopt(curl.TIMEOUT, timeout)
+    result_list = []
 
     for site in site_list:
         curl.setopt(curl.URL, "https://www." + site + "/")
-        curl.setopt(curl.WRITEDATA, buffer)
-        curl.perform()
-        multi_curl.timeout()
+        try:
+            curl.perform()
+        except Exception as exc:
+            print("Exception: ", exc.args)
+            pass
 
-        print("***** " + site.upper() + " *****")
+        http_response_code = curl.getinfo(curl.HTTP_CODE)
         ip = socket.gethostbyname(site)
         dns_lookup = curl.getinfo(curl.NAMELOOKUP_TIME)
         tcp_connection_time = curl.getinfo(curl.CONNECT_TIME)
-        http_response_code = curl.getinfo(curl.HTTP_CODE)
         redirect_count = curl.getinfo(curl.REDIRECT_COUNT)
+
         if http_response_code == 200:
             load_content_time = curl.getinfo(curl.TOTAL_TIME)
-
-        print("IP address: " + ip)
-        print('DNS resolution time for the domain: %f' % dns_lookup)
-        print('TCP connection time: %f' % tcp_connection_time)
-        print('The HTTP response code: %i' % http_response_code)
-        print('The number of redirects: %i' % redirect_count)
-
-        if http_response_code == 200:
-            print('Get content time: %f' % load_content_time)
         else:
-            print("HTTP response Code isn't 200! Content didn't load.")
-        print('*** END ***')
+            load_content_time = 0
 
-        if is_json_output:
-            site_result_time.SiteResult.__init__(site, ip, dns_lookup, tcp_connection_time, http_response_code, redirect_count, load_content_time)
+        print("Test result for site: ", site)
+        data = {
+            site: {
+                "ip_address": ip,
+                "dns_lookup_time": dns_lookup,
+                "tcp_connection_time": tcp_connection_time,
+                "status_code": http_response_code,
+                "redirect_count": redirect_count,
+                "load_content_time": load_content_time
+            }
+        }
+        print(data)
+        result = site_result_time.SiteResult(site, ip, dns_lookup, tcp_connection_time,
+                                             http_response_code, redirect_count, load_content_time)
+        result_list.append(result)
+
+    curl.close()
+
+    if is_json_output:
+        result.write_json_file(result_list)
 
     pass
-
-
-def write2file():
-    site_result_time.SiteResult.__init__(site, ip, dns_lookup, tcp_connection_time, http_response_code, redirect_count, load_content_time)
-
-
-def write2TestFile():
-    site_result_time.SiteResult.__init__(site_result_time, "google.com", "192.168.0.1", 0.0008, 0.005, 200, 2, 5.35)
-    site_result_time.SiteResult.write_json_file(site_result_time)
 
 
 def str2bool(v):
@@ -73,6 +71,21 @@ def str2bool(v):
         return False
     else:
         raise argparse.ArgumentTypeError("Boolean value expected: 'yes'/'no', 'true'/'false', '1'/'2'")
+
+
+def get_user_agent(agent):
+    if str.lower(agent) in ["safari", "chrome", "android", "opera_mini"]:
+        with open("site_time_config.yml", 'r') as f:
+            doc = yaml.load(f)
+            return doc["user_agent"][str.lower(agent)]
+    else:
+        return agent
+
+
+def get_site_list():
+    with open("site_time_config.yml", 'r') as f:
+        doc = yaml.load(f)
+        return doc["site_list"]
 
 
 def create_parser():
@@ -86,12 +99,12 @@ def create_parser():
     )
 
     parser.add_argument(
-        '-A', '--agent', type=str, required=False,
+        '-A', '--agent', type=get_user_agent, required=True,
         help='Specify the user agent the requests are made from. If needed.'
     )
 
     parser.add_argument(
-        '-T', '--timeout', type=float, required=True,
+        '-T', '--timeout', type=int, required=True,
         help='Enter the timeout in seconds.'
     )
 
@@ -106,8 +119,7 @@ def create_parser():
 def main():
     parser = create_parser()
     args = parser.parse_args()
-    #get_all_information(args.timeout, args.wright, args.agent, args.parallel)
-    write2TestFile()
+    get_all_information(args.timeout, args.wright, args.agent, args.parallel)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,74 @@
+[
+  {
+    "google.com": [
+      {
+        "ip_address": "216.58.209.78",
+        "dns_lookup_time": 0.004961,
+        "tcp_connection_time": 0.035231,
+        "status_code": 200,
+        "redirect_count": 1,
+        "load_content_time": 0.454615
+      }
+    ]
+  },
+  {
+    "yahoo.com": [
+      {
+        "ip_address": "206.190.36.45",
+        "dns_lookup_time": 0.071237,
+        "tcp_connection_time": 0.156334,
+        "status_code": 200,
+        "redirect_count": 0,
+        "load_content_time": 1.451272
+      }
+    ]
+  },
+  {
+    "amazon.com": [
+      {
+        "ip_address": "54.239.25.192",
+        "dns_lookup_time": 0.068948,
+        "tcp_connection_time": 0.115649,
+        "status_code": 200,
+        "redirect_count": 0,
+        "load_content_time": 0.755036
+      }
+    ]
+  },
+  {
+    "cnn.com": [
+      {
+        "ip_address": "151.101.129.67",
+        "dns_lookup_time": 0.005239,
+        "tcp_connection_time": 0.061144,
+        "status_code": 200,
+        "redirect_count": 2,
+        "load_content_time": 0.632424
+      }
+    ]
+  },
+  {
+    "msn.com": [
+      {
+        "ip_address": "13.82.28.61",
+        "dns_lookup_time": 0.134571,
+        "tcp_connection_time": 0.204993,
+        "status_code": 200,
+        "redirect_count": 0,
+        "load_content_time": 0.71294
+      }
+    ]
+  },
+  {
+    "ebay.com": [
+      {
+        "ip_address": "66.211.185.25",
+        "dns_lookup_time": 0.063629,
+        "tcp_connection_time": 0.108436,
+        "status_code": 403,
+        "redirect_count": 0,
+        "load_content_time": 0
+      }
+    ]
+  }
+]

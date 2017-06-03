@@ -1,0 +1,86 @@
+[
+  {
+    "yahoo.com": [
+      {
+        "ip_address": "98.139.183.24",
+        "dns_lookup_time": 0.27307499999999996,
+        "tcp_connection_time": 0.658346,
+        "status_code": 200,
+        "redirect_count": 0,
+        "load_content_time": 23.767065
+      }
+    ]
+  },
+  {
+    "amazon.com": [
+      {
+        "ip_address": "54.239.25.208",
+        "dns_lookup_time": 0.527575,
+        "tcp_connection_time": 1.209159,
+        "status_code": 200,
+        "redirect_count": 0,
+        "load_content_time": 14.276671
+      }
+    ]
+  },
+  {
+    "cnn.com": [
+      {
+        "ip_address": "151.101.129.67",
+        "dns_lookup_time": 0.072626,
+        "tcp_connection_time": 0.141178,
+        "status_code": 200,
+        "redirect_count": 2,
+        "load_content_time": 1.042191
+      }
+    ]
+  },
+  {
+    "msn.com": [
+      {
+        "ip_address": "13.82.28.61",
+        "dns_lookup_time": 0.136086,
+        "tcp_connection_time": 0.203721,
+        "status_code": 200,
+        "redirect_count": 0,
+        "load_content_time": 1.264681
+      }
+    ]
+  },
+  {
+    "ebay.com": [
+      {
+        "ip_address": "66.135.216.190",
+        "dns_lookup_time": 0.14055399999999996,
+        "tcp_connection_time": 0.199685,
+        "status_code": 403,
+        "redirect_count": 0,
+        "load_content_time": 0
+      }
+    ]
+  },
+  {
+    "google.com": [
+      {
+        "ip_address": "172.217.20.174",
+        "dns_lookup_time": 0.072671,
+        "tcp_connection_time": 0.117641,
+        "status_code": 200,
+        "redirect_count": 1,
+        "load_content_time": 0.998563
+      }
+    ]
+  },
+  {
+    "anchorfree.com": [
+      {
+        "ip_address": "13.32.22.143",
+        "dns_lookup_time": 0.269181,
+        "tcp_connection_time": 0.365826,
+        "status_code": 200,
+        "redirect_count": 0,
+        "load_content_time": 0.70601
+      }
+    ]
+  }
+]
