@@ -15,7 +15,8 @@ class SiteResult:
         self.load_content_time = load_content_time
 
     @staticmethod
-    def write_json_file(result_list, json_data=[]):
+    def write_json_file(result_list):
+        json_data=[]
         for self in result_list:
             data = {
                 self.site_name: [
