@@ -1,6 +1,6 @@
 Command-line test tool that gets the content for a list of websites and reports the performance of each website
 
-for run tests use command bellow:
+for run tests use command below:
 usage: site_performance.py [-h] -W WRIGHT -A AGENT -T TIMEOUT [-P PARALLEL]
 
 optional arguments:
